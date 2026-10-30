@@ -15,9 +15,12 @@ canvas{width:min(100%,960px);aspect-ratio:800/448;image-rendering:pixelated;bord
 .pad button{width:68px;height:56px;border-radius:12px;border:2px solid var(--fg);background:transparent;color:var(--fg);font-size:22px}
 .pad button:active{background:rgba(255,255,255,.25)}
 small{opacity:.7}
+.back{color:var(--fg);font-size:14px;text-decoration:none;opacity:.8;align-self:flex-start;margin-left:max(10px,calc(50% - 480px))}
+.back:hover{opacity:1;text-decoration:underline}
 </style>
 </head>
 <body>
+<a class="back" href="../../">← ゲーム一覧へ</a>
 <canvas id="c" width="800" height="448"></canvas>
 <div class="pad"><div><button id="bl">◀</button><button id="br">▶</button></div><button id="bj">ジャンプ</button></div>
 <small>←→ / A D で移動、スペース / ↑ でジャンプ。敵は上から踏もう!</small>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ゲームだな</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f1ecff;--ink:#231f4a;--sub:#5d5890;--card:#fff;--line:#d9d1f5;--accent:#ff6b4a;--shelf:#cfc4f2;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171435;--ink:#f3efff;--sub:#a7a1d6;--card:#231f4f;--line:#3a3475;--accent:#ffcf4a;--shelf:#0f0d26}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;line-height:1.7}
+header{max-width:960px;margin:0 auto;padding:48px 20px 24px}
+h1{font-family:"DotGothic16","Hiragino Maru Gothic ProN",sans-serif;font-weight:400;font-size:clamp(40px,9vw,68px);margin:0;letter-spacing:.06em;line-height:1.1}
+header p{margin:10px 0 0;color:var(--sub);font-size:16px}
+main{max-width:960px;margin:0 auto;padding:8px 20px 56px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:26px 20px}
+.card{display:flex;flex-direction:column;background:var(--card);border:2px solid var(--line);border-radius:14px 14px 6px 6px;overflow:hidden;text-decoration:none;color:inherit;position:relative;transition:transform .15s,border-color .15s;box-shadow:0 8px 0 -2px var(--shelf)}
+.card:hover,.card:focus-visible{transform:translateY(-4px);border-color:var(--accent);outline:none}
+.art{height:130px;display:grid;place-items:center;font-size:58px;position:relative}
+.art::after{content:"";position:absolute;inset:auto 0 0 0;height:10px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 10px,transparent 10px 20px)}
+.body{padding:14px 16px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.body h2{margin:0;font-size:20px}
+.body p{margin:0;font-size:14px;color:var(--sub)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.tags span{font-size:12px;padding:1px 10px;border:1.5px solid var(--line);border-radius:99px;color:var(--sub)}
+.new{position:absolute;top:10px;right:10px;background:var(--accent);color:#231f4a;font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px}
+.play{margin-top:10px;font-weight:700;color:var(--accent)}
+.soon{border-style:dashed;box-shadow:none;background:transparent;display:grid;place-items:center;min-height:250px;text-align:center;color:var(--sub);padding:20px}
+.soon b{display:block;font-size:34px}
+footer{max-width:960px;margin:0 auto;padding:0 20px 40px;color:var(--sub);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>ゲームだな</h1>
+  <p>ブラウザですぐ遊べる、手づくりゲームのたな。</p>
+</header>
+<main>
+  <div class="grid" id="grid"></div>
+</main>
+<footer>ゲームは順次追加していきます。</footer>
+<script>
+// ★ ゲームを追加するときは、この GAMES に1件足すだけ(README参照)
+const GAMES=[
+  {
+    title:"でこぼこランナー",
+    desc:"でこぼこの地形を進む横スクロールアクション。カメときのこを踏んで倒し、ゴールの旗を目指そう。",
+    path:"games/side-runner/",
+    emoji:"🐢",
+    colors:["#5ec0ff","#9bd48a"],
+    tags:["アクション","PC・スマホ"],
+    added:"2026-10-31"
+  }
+];
+const grid=document.getElementById('grid');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const days=d=>(Date.now()-new Date(d))/864e5;
+GAMES.slice().sort((a,b)=>b.added.localeCompare(a.added)).forEach(x=>{
+  const a=document.createElement('a');a.className='card';a.href=x.path;
+  a.innerHTML=`<div class="art" style="background:linear-gradient(160deg,${x.colors[0]},${x.colors[1]})">${x.emoji}</div>
+  ${days(x.added)<30?'<span class="new">NEW</span>':''}
+  <div class="body"><h2>${esc(x.title)}</h2><p>${esc(x.desc)}</p>
+  <div class="tags">${x.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+  <div class="play">あそぶ ▶</div></div>`;
+  grid.appendChild(a);
+});
+const s=document.createElement('div');s.className='card soon';
+s.innerHTML='<div><b>？</b>つぎのゲーム、<br>じゅんび中</div>';
+grid.appendChild(s);
+</script>
+</body>
+</html>
